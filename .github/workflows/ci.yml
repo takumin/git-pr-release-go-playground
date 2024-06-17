@@ -1,0 +1,23 @@
+name: Create Release Pull Request
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-release-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Setup git-pr-release-go
+        uses: KeisukeYamashita/setup-release@v1.0.2
+        with:
+          repository: odanado/git-pr-release-go
+          arch: x86_64
+          platform: Linux
+
+      - run: git-pr-release-go --from main --to release/production
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
